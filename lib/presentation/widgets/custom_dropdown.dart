@@ -54,6 +54,9 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
                     final item = widget.items[index];
                     return ListTile(
                       title: Text(widget.itemLabelBuilder(item)),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                      ),
                       onTap: () {
                         setState(() {
                           selectedValue = item;
