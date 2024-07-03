@@ -14,6 +14,17 @@ class LocalDataSource {
     await prefs.setString('selected_users', jsonString);
   }
 
+  Future<void> deleteUser(User user) async {
+    final prefs = await SharedPreferences.getInstance();
+    final selectedUsers = await getSelectedUsers();
+
+    selectedUsers.removeWhere((u) => u.id == user.id);
+    final jsonString =
+        jsonEncode(selectedUsers.map((u) => u.toJson()).toList());
+
+    await prefs.setString('selected_users', jsonString);
+  }
+
   Future<List<User>> getSelectedUsers() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('selected_users');
