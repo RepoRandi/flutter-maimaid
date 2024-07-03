@@ -38,6 +38,18 @@ class _UserListPageState extends State<UserListPage> {
     );
   }
 
+  void _deleteSelectedUser(UserModel user) async {
+    await LocalDataSource().deleteUser(user.toUser());
+    await _loadSelectedUsers();
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('User deleted from selected list'),
+      ),
+    );
+  }
+
   Future<void> _loadSelectedUsers() async {
     final List<User> selectedUsers = await LocalDataSource().getSelectedUsers();
     setState(() {
@@ -170,6 +182,24 @@ class _UserListPageState extends State<UserListPage> {
                   fontWeight: FontWeight.w400,
                   color: Color(0XFFFF7622),
                 ),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialog(
+                        title: 'Are You Sure?',
+                        content: 'Delete Now',
+                        onConfirm: () {
+                          _deleteSelectedUser(selectedUser);
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             );
           },
