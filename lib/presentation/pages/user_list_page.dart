@@ -89,6 +89,8 @@ class _UserListPageState extends State<UserListPage> {
             ),
           ],
           bottom: const TabBar(
+            indicatorColor: Colors.orange,
+            labelColor: Colors.orange,
             tabs: [
               Tab(text: "Non Selected"),
               Tab(text: "Selected"),
